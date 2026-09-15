@@ -6,7 +6,9 @@ import 'package:tourna/features/team/presentation/team_screen.dart';
 import 'package:tourna/features/tournaments/presentation/tournaments_screen.dart';
 
 class MainShell extends StatefulWidget {
-  const MainShell({super.key});
+  const MainShell({this.onSignOut, super.key});
+
+  final Future<void> Function()? onSignOut;
 
   @override
   State<MainShell> createState() => _MainShellState();
@@ -56,7 +58,7 @@ class _MainShellState extends State<MainShell> {
         const TournamentsScreen(),
         const TeamScreen(),
         const LiveScreen(),
-        const ProfileScreen(),
+        ProfileScreen(onSignOut: widget.onSignOut),
       ],
     );
 

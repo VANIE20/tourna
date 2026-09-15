@@ -32,6 +32,9 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+.env
+.env.*
+!.env.example
 
 # Symbolication related
 app.*.symbols
@@ -46,3 +49,10 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+.agent/
+.agents/
+.dart-tool/
+.dartServer/
+.flutter-template-images-pubspec.yaml
+.flutter-tool-package-config.json
+Dart/
