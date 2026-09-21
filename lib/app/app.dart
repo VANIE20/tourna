@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:tourna/app/theme/app_theme.dart';
 import 'package:tourna/features/auth/domain/auth_repository.dart';
 import 'package:tourna/features/auth/presentation/auth_gate.dart';
+import 'package:tourna/features/profile/domain/profile_repository.dart';
+import 'package:tourna/features/team/domain/team_repository.dart';
 
 class TournaApp extends StatelessWidget {
-  const TournaApp({this.authRepository, this.configurationError, super.key});
+  const TournaApp({
+    this.authRepository,
+    this.profileRepository,
+    this.teamRepository,
+    this.configurationError,
+    super.key,
+  });
 
   final AuthRepository? authRepository;
+  final ProfileRepository? profileRepository;
+  final TeamRepository? teamRepository;
   final String? configurationError;
 
   @override
@@ -17,9 +27,16 @@ class TournaApp extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
-      home: authRepository == null
+      home:
+          authRepository == null ||
+              profileRepository == null ||
+              teamRepository == null
           ? _ConfigurationScreen(message: configurationError)
-          : AuthGate(repository: authRepository!),
+          : AuthGate(
+              repository: authRepository!,
+              profileRepository: profileRepository!,
+              teamRepository: teamRepository!,
+            ),
     );
   }
 }

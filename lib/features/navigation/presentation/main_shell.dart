@@ -2,12 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:tourna/features/home/presentation/home_screen.dart';
 import 'package:tourna/features/live/presentation/live_screen.dart';
 import 'package:tourna/features/profile/presentation/profile_screen.dart';
+import 'package:tourna/features/profile/domain/profile_repository.dart';
+import 'package:tourna/features/profile/domain/user_profile.dart';
+import 'package:tourna/features/team/domain/team_repository.dart';
 import 'package:tourna/features/team/presentation/team_screen.dart';
 import 'package:tourna/features/tournaments/presentation/tournaments_screen.dart';
 
 class MainShell extends StatefulWidget {
-  const MainShell({this.onSignOut, super.key});
+  const MainShell({
+    required this.profile,
+    required this.profileRepository,
+    required this.teamRepository,
+    this.onSignOut,
+    super.key,
+  });
 
+  final UserProfile profile;
+  final ProfileRepository profileRepository;
+  final TeamRepository teamRepository;
   final Future<void> Function()? onSignOut;
 
   @override
@@ -56,9 +68,13 @@ class _MainShellState extends State<MainShell> {
       children: [
         HomeScreen(onExploreTournaments: () => _selectDestination(1)),
         const TournamentsScreen(),
-        const TeamScreen(),
+        TeamScreen(repository: widget.teamRepository),
         const LiveScreen(),
-        ProfileScreen(onSignOut: widget.onSignOut),
+        ProfileScreen(
+          profile: widget.profile,
+          repository: widget.profileRepository,
+          onSignOut: widget.onSignOut,
+        ),
       ],
     );
 

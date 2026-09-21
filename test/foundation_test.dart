@@ -2,6 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tourna/core/config/supabase_config.dart';
 import 'package:tourna/features/profile/domain/user_profile.dart';
 
+import 'helpers/fake_profile_repository.dart';
+
 void main() {
   group('SupabaseConfig', () {
     test('is unconfigured when either value is missing', () {
@@ -51,6 +53,20 @@ void main() {
       expect(UserRole.fromValue('CAPTAIN'), UserRole.captain);
       expect(UserRole.fromValue('unknown'), UserRole.guest);
       expect(UserRole.fromValue(null), UserRole.guest);
+    });
+
+    test('profile edits cannot change an assigned role', () async {
+      final repository = FakeProfileRepository(
+        initialProfile: sampleProfile(role: UserRole.organizer),
+      );
+
+      final updated = await repository.updateProfile(
+        username: 'updated_name',
+        displayName: 'Updated Name',
+      );
+
+      expect(updated.role, UserRole.organizer);
+      await repository.dispose();
     });
   });
 }

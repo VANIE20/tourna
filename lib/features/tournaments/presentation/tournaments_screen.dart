@@ -35,8 +35,7 @@ class _TournamentPage extends StatelessWidget {
                 const PageHeader(
                   eyebrow: 'Competition hub',
                   title: 'Find your next bracket.',
-                  description:
-                      'Choose an event, check the format, and bring your squad to the arena.',
+                  description: 'Choose an event, check the format, and bring your squad to the arena.',
                 ),
                 const SizedBox(height: 32),
                 for (final event in _events)

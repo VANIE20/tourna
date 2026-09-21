@@ -56,3 +56,13 @@ app.*.map.json
 .flutter-template-images-pubspec.yaml
 .flutter-tool-package-config.json
 Dart/
+supabase.env.json
+
+# Generated Android build output
+android/build/
+
+# AI Dev Agent / Obsidian memory
+Sessions.md
+
+# Supabase CLI local state
+supabase/.temp/

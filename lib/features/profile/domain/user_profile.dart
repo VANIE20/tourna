@@ -16,13 +16,24 @@ enum UserRole {
 class UserProfile {
   const UserProfile({
     required this.id,
-    required this.email,
+    required this.username,
+    required this.displayName,
     required this.role,
-    this.displayName,
+    required this.createdAt,
+    required this.updatedAt,
+    this.email,
   });
 
   final String id;
   final String? email;
-  final String? displayName;
+  final String username;
+  final String displayName;
   final UserRole role;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  String get initials {
+    final words = displayName.trim().split(RegExp(r'\s+'));
+    return words.take(2).map((word) => word[0].toUpperCase()).join();
+  }
 }

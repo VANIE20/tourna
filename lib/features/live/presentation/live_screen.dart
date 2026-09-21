@@ -29,7 +29,11 @@ class LiveScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Chip(
-                          avatar: Icon(Icons.sensors_rounded, color: colors.onErrorContainer, size: 18),
+                          avatar: Icon(
+                            Icons.sensors_rounded,
+                            color: colors.onErrorContainer,
+                            size: 18,
+                          ),
                           label: const Text('LIVE · MAP 2'),
                           backgroundColor: colors.errorContainer,
                         ),
@@ -38,23 +42,50 @@ class LiveScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             _TeamScore(name: 'Team Aurora', score: '10'),
-                            Text('VS', style: theme.textTheme.labelLarge?.copyWith(color: colors.onSurfaceVariant)),
-                            _TeamScore(name: 'Northstar', score: '8', alignEnd: true),
+                            Text(
+                              'VS',
+                              style: theme.textTheme.labelLarge?.copyWith(
+                                color: colors.onSurfaceVariant,
+                              ),
+                            ),
+                            _TeamScore(
+                              name: 'Northstar',
+                              score: '8',
+                              alignEnd: true,
+                            ),
                           ],
                         ),
                         const SizedBox(height: 24),
                         const Divider(),
                         const SizedBox(height: 12),
-                        Text('Manila Open Series · Semifinal', style: theme.textTheme.bodyMedium?.copyWith(color: colors.onSurfaceVariant)),
+                        Text(
+                          'Manila Open Series · Semifinal',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: colors.onSurfaceVariant,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
                 const SizedBox(height: 32),
-                Text('UP NEXT', style: theme.textTheme.labelLarge?.copyWith(color: colors.primary, fontWeight: FontWeight.w800, letterSpacing: 1.2)),
+                Text(
+                  'UP NEXT',
+                  style: theme.textTheme.labelLarge?.copyWith(
+                    color: colors.primary,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2,
+                  ),
+                ),
                 const SizedBox(height: 12),
-                const _UpcomingMatch(time: '7:30 PM', teams: 'Blue Comets vs. Arc Light'),
-                const _UpcomingMatch(time: '8:15 PM', teams: 'Solstice vs. Kingsmen'),
+                const _UpcomingMatch(
+                  time: '7:30 PM',
+                  teams: 'Blue Comets vs. Arc Light',
+                ),
+                const _UpcomingMatch(
+                  time: '8:15 PM',
+                  teams: 'Solstice vs. Kingsmen',
+                ),
               ],
             ),
           ),
@@ -65,7 +96,11 @@ class LiveScreen extends StatelessWidget {
 }
 
 class _TeamScore extends StatelessWidget {
-  const _TeamScore({required this.name, required this.score, this.alignEnd = false});
+  const _TeamScore({
+    required this.name,
+    required this.score,
+    this.alignEnd = false,
+  });
 
   final String name;
   final String score;
@@ -74,10 +109,16 @@ class _TeamScore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: alignEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      crossAxisAlignment: alignEnd
+          ? CrossAxisAlignment.end
+          : CrossAxisAlignment.start,
       children: [
         Text(name, style: Theme.of(context).textTheme.titleMedium),
-        Text(score, style: Theme.of(context).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.w900)),
+        Text(
+          score,
+          style: Theme.of(context).textTheme.displayMedium
+              ?.copyWith(fontWeight: FontWeight.w900),
+        ),
       ],
     );
   }
@@ -94,7 +135,10 @@ class _UpcomingMatch extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
-        leading: Icon(Icons.schedule_rounded, color: Theme.of(context).colorScheme.primary),
+        leading: Icon(
+          Icons.schedule_rounded,
+          color: Theme.of(context).colorScheme.primary,
+        ),
         title: Text(teams),
         trailing: Text(time, style: Theme.of(context).textTheme.labelLarge),
       ),
