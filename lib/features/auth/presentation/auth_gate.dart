@@ -104,46 +104,60 @@ class _ProfileGate extends StatefulWidget {
 }
 
 class _ProfileGateState extends State<_ProfileGate> {
-  late Future<UserProfile?> _profile;
+  UserProfile? _currentProfile;
+  Object? _loadError;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _profile = widget.repository.loadCurrentProfile();
+    _loadProfile();
+  }
+
+  Future<void> _loadProfile() async {
+    setState(() {
+      _isLoading = true;
+      _loadError = null;
+    });
+    try {
+      final profile = await widget.repository.loadCurrentProfile();
+      if (!mounted) return;
+      setState(() {
+        _currentProfile = profile;
+        _isLoading = false;
+      });
+    } catch (error) {
+      if (!mounted) return;
+      setState(() {
+        _loadError = error;
+        _isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<UserProfile?>(
-      future: _profile,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return const _AuthLoadingScreen();
-        }
-        if (snapshot.hasError) {
-          return _ProfileLoadError(
-            onRetry: () => setState(() {
-              _profile = widget.repository.loadCurrentProfile();
-            }),
-            onSignOut: widget.onSignOut,
-          );
-        }
-        final profile = snapshot.data;
-        if (profile == null) {
-          return ProfileSetupScreen(
-            repository: widget.repository,
-            onProfileCreated: (created) {
-              setState(() => _profile = Future.value(created));
-            },
-          );
-        }
-        return MainShell(
-          profile: profile,
-          profileRepository: widget.repository,
-          teamRepository: widget.teamRepository,
-          onSignOut: widget.onSignOut,
-        );
-      },
+    if (_isLoading) return const _AuthLoadingScreen();
+    if (_loadError != null) {
+      return _ProfileLoadError(
+        onRetry: _loadProfile,
+        onSignOut: widget.onSignOut,
+      );
+    }
+    final profile = _currentProfile;
+    if (profile == null) {
+      return ProfileSetupScreen(
+        repository: widget.repository,
+        onProfileCreated: (created) {
+          setState(() => _currentProfile = created);
+        },
+      );
+    }
+    return MainShell(
+      profile: profile,
+      profileRepository: widget.repository,
+      teamRepository: widget.teamRepository,
+      onSignOut: widget.onSignOut,
     );
   }
 }
